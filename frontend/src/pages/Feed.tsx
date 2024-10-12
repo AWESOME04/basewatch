@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {FaHome, FaHashtag, FaMap, FaUser, FaEllipsisH} from 'react-icons/fa';
-import Header from '../components/homepage/Header';
-import Sidebar from '../components/feed/Sidebar';
+import Header from '../components/shared/Header';
+import Sidebar from '../components/shared/Sidebar';
 import TrendingSection from '../components/feed/TrendingSection';
 import MainContent from '../components/feed/MainContent';
 

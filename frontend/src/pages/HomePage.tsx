@@ -1,4 +1,4 @@
-import Header from '../components/homepage/Header';
+import Header from '../components/shared/Header';
 import HeroSection from '../components/homepage/HeroSection';
 import AboutUs from '../components/homepage/AboutUs';
 import MapSection from '../components/homepage/MapSection';
