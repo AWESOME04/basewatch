@@ -3,7 +3,7 @@ import SunsetImage from '../assets/sunset.svg';
 
 const AboutUs = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="bg-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-8 md:mb-0">
