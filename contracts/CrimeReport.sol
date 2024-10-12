@@ -22,15 +22,15 @@ contract CrimeReport {
     }
 
     uint256 public reportCount = 0;
-    ERC20 public rewardToken; 
-    uint256 public rewardAmount; 
-    address[] public validators; 
+    ERC20 public rewardToken;
+    uint256 public rewardAmount;
+    address[] public validators;
     uint256 public validatorThreshold;
     uint256 public pointsPerSuccessfulValidation = 10;
     uint256 public pointsLostForFalseValidation = 10;
 
     mapping(uint256 => Report) public reports;
-    mapping(address => Validator) public validatorReputation; // Tracks reputation of validators
+    mapping(address => Validator) public validatorReputation;
     mapping(uint256 => mapping(address => bool)) public hasVoted;
 
     event ReportSubmitted(uint256 reportId, address indexed reporter);
@@ -38,11 +38,15 @@ contract CrimeReport {
     event ReportRejected(uint256 reportId);
     event ReputationUpdated(address indexed validator, uint256 newScore);
 
-    constructor(ERC20 _rewardToken, uint256 _rewardAmount, address[] memory _validators) {
+    constructor(
+        ERC20 _rewardToken,
+        uint256 _rewardAmount,
+        address[] memory _validators
+    ) {
         rewardToken = _rewardToken;
         rewardAmount = _rewardAmount;
         validators = _validators;
-        validatorThreshold = _validators.length / 2;
+        validatorThreshold = (_validators.length + 1) / 2;
     }
 
     modifier onlyValidator() {
@@ -55,6 +59,9 @@ contract CrimeReport {
         }
         require(isValidator, "Only validators can vote");
         _;
+    }
+    function addValidator(address newValidator) external {
+        validators.push(newValidator);
     }
 
     function submitReport(
@@ -85,7 +92,8 @@ contract CrimeReport {
         Report storage report = reports[reportId];
 
         require(
-            keccak256(abi.encodePacked(report.status)) == keccak256(abi.encodePacked("pending")),
+            keccak256(abi.encodePacked(report.status)) ==
+                keccak256(abi.encodePacked("pending")),
             "Report already validated or rejected"
         );
         require(!hasVoted[reportId][msg.sender], "You have already voted");
@@ -106,7 +114,8 @@ contract CrimeReport {
         Report storage report = reports[reportId];
 
         require(
-            keccak256(abi.encodePacked(report.status)) == keccak256(abi.encodePacked("pending")),
+            keccak256(abi.encodePacked(report.status)) ==
+                keccak256(abi.encodePacked("pending")),
             "Report already validated or rejected"
         );
         require(!hasVoted[reportId][msg.sender], "You have already voted");
@@ -123,21 +132,24 @@ contract CrimeReport {
 
     // Function to reward points if a report is validated as verified
     function rewardValidator(address validator) internal {
-        validatorReputation[validator].reputationScore += pointsPerSuccessfulValidation;
-        emit ReputationUpdated(validator, validatorReputation[validator].reputationScore);
+        validatorReputation[validator]
+            .reputationScore += pointsPerSuccessfulValidation;
+        emit ReputationUpdated(
+            validator,
+            validatorReputation[validator].reputationScore
+        );
     }
 
-    // Function to penalize points if a report is proven false
     function penalizeValidator(address validator) internal {
-        if (validatorReputation[validator].reputationScore >= pointsLostForFalseValidation) {
-            validatorReputation[validator].reputationScore -= pointsLostForFalseValidation;
-        } else {
-            validatorReputation[validator].reputationScore = 0; // Prevent negative scores
-        }
-        emit ReputationUpdated(validator, validatorReputation[validator].reputationScore);
+        validatorReputation[validator]
+            .reputationScore -= pointsLostForFalseValidation;
+
+        emit ReputationUpdated(
+            validator,
+            validatorReputation[validator].reputationScore
+        );
     }
 
-    // Function to get a validator's current reputation score
     function getReputation(address validator) external view returns (uint256) {
         return validatorReputation[validator].reputationScore;
     }
