@@ -1,4 +1,4 @@
-import MapImage from '../assets/map.svg';
+import MapImage from '../../assets/map.svg';
 
 const MapSection = () => {
   return (

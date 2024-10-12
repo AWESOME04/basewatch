@@ -1,5 +1,5 @@
-import LeafImage from '../assets/leaves.svg';
-import SunsetImage from '../assets/sunset.svg';
+import LeafImage from '../../assets/leaves.svg';
+import SunsetImage from '../../assets/sunset.svg';
 
 const AboutUs = () => {
   return (
