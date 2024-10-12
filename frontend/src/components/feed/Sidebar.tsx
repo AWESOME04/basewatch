@@ -24,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
                 to={item.path}
                 className={`flex items-center space-x-3 p-2 rounded-lg transition-colors ${
                   activePage === item.path
-                    ? 'text-blue-500 bg-blue-50'
+                    ? 'text-[#1DA1F2] bg-blue-50'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
