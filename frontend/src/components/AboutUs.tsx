@@ -22,6 +22,9 @@ const AboutUs = () => {
       <div className="mt-16 relative">
         <img src={SunsetImage} alt="Sunset" className="w-full h-auto" />
         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+          <p className="text-white text-2xl text-center px-4">
+            Our water bodies are sacred and precious to all Ghanaians
+          </p>
         </div>
       </div>
     </section>
