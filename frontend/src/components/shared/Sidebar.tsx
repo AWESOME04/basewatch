@@ -45,9 +45,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
           ))}
         </ul>
         <div className="py-8 border-t border-gray-200">
-        <button className="w-full bg-red-500 text-white py-3 rounded-full font-semibold hover:bg-red-600 transition-colors">
-          Report Activity
-        </button>
+          <Link to='/report'>
+            <button className="w-full bg-red-500 text-white py-3 rounded-full font-semibold hover:bg-red-600 transition-colors">
+              Report Activity
+            </button>
+          </Link>
       </div>
       </nav>
     </aside>

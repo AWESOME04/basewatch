@@ -56,7 +56,7 @@ const ReportForm = () => {
     e.preventDefault();
     console.log(formData);
     console.log(attachments);
-    // Here you would typically send the form data and attachments to your backend
+    // send data to backend
   };
 
   return (
