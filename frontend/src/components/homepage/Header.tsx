@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/logo.svg';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  mode?: 'default' | 'dashboard';
+}
+
+const Header = ({ mode = 'default' }: HeaderProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -31,34 +35,37 @@ const Header: React.FC = () => {
     setMenuOpen((prevState) => !prevState);
   };
 
+  const headerClass = mode === 'dashboard' 
+    ? 'bg-white shadow-md' 
+    : scrolled ? 'bg-gray-900/90 backdrop-blur-md' : 'bg-transparent';
+
+  const textColor = mode === 'dashboard' ? 'text-black' : 'text-white';
+
   return (
-    <header className={`fixed top-0 left-0 right-0 z-10 transition-all duration-300 ${
-      scrolled ? 'bg-gray-900/90 backdrop-blur-md' : 'bg-transparent'
-    }`}>
+    <header className={`fixed top-0 left-0 right-0 z-10 transition-all duration-300 ${headerClass}`}>
       <nav className="container mx-auto px-4 py-6 flex justify-between items-center">
         <Link to='/'>
           <img src={Logo} alt="Logo" className="w-16 h-16" />
         </Link>
 
-        {/* Hamburger Button */}
-        <button className="md:hidden menu-btn z-20" onClick={toggleMenu}>
-          {menuOpen ? <FaTimes size={24} className="text-white" /> : <FaBars size={24} className="text-white" />}
+        <button className={`md:hidden menu-btn z-20 ${textColor}`} onClick={toggleMenu}>
+          {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6">
-          <li><Link to="/" className="font-semibold text-white hover:text-gray-300">HOME</Link></li>
-          <li><Link to="/about" className="font-semibold text-white hover:text-gray-300">ABOUT US</Link></li>
-          <li><Link to="/map" className="font-semibold text-white hover:text-gray-300">MAP</Link></li>
-          <li><Link to="/learn-more" className="font-semibold text-white hover:text-gray-300">LEARN MORE</Link></li>
-          <li><Link to="/contact" className="font-semibold text-white hover:text-gray-300">CONTACT</Link></li>
+        <ul className={`hidden md:flex space-x-6 ${textColor}`}>
+          <li><Link to="/" className={`font-semibold hover:text-gray-300 ${textColor}`}>HOME</Link></li>
+          <li><Link to="/about" className={`font-semibold hover:text-gray-300 ${textColor}`}>ABOUT US</Link></li>
+          <li><Link to="/map" className={`font-semibold hover:text-gray-300 ${textColor}`}>MAP</Link></li>
+          <li><Link to="/learn-more" className={`font-semibold hover:text-gray-300 ${textColor}`}>LEARN MORE</Link></li>
+          <li><Link to="/contact" className={`font-semibold hover:text-gray-300 ${textColor}`}>CONTACT</Link></li>
         </ul>
 
-        <button className="hidden md:block text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors">
+        <button className={`hidden md:block border px-4 py-2 rounded-full transition-colors ${
+          mode === 'dashboard' ? 'border-black text-black hover:bg-black hover:text-white' : 'border-white text-white hover:bg-white hover:text-black'
+        }`}>
           Connect Wallet
         </button>
 
-        {/* Mobile Menu */}
         <div className={`md:hidden fixed inset-0 bg-gray-900 z-10 transition-all duration-300 ${
           menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         } menu`}>
