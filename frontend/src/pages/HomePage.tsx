@@ -8,14 +8,24 @@ import Footer from '../components/homepage/Footer';
 const HomePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header mode="default" isHomePage={true} />
       <main className="flex-grow">
-        <HeroSection />
-        <AboutUs />
-        <MapSection />
-        <LearnMore />
+        <section id="hero">
+          <HeroSection />
+        </section>
+        <section id="about">
+          <AboutUs />
+        </section>
+        <section id="map">
+          <MapSection />
+        </section>
+        <section id="learn-more">
+          <LearnMore />
+        </section>
       </main>
-      <Footer />
+      <footer id="footer">
+        <Footer />
+      </footer>
     </div>
   );
 };

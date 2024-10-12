@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Logo from '../../assets/logo.svg';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 interface HeaderProps {
   mode?: 'default' | 'dashboard';
+  isHomePage?: boolean;
 }
 
-const Header = ({ mode = 'default' }: HeaderProps) => {
+const Header: React.FC<HeaderProps> = ({ mode = 'default', isHomePage = false }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,6 +43,26 @@ const Header = ({ mode = 'default' }: HeaderProps) => {
 
   const textColor = mode === 'dashboard' ? 'text-black' : 'text-white';
 
+  const scrollToSection = (sectionId: string) => {
+    if (isHomePage) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+        setMenuOpen(false);
+      }
+    } else {
+      window.location.href = `/#${sectionId}`;
+    }
+  };
+
+  const navItems = [
+    { label: 'HOME', sectionId: 'hero' },
+    { label: 'ABOUT US', sectionId: 'about' },
+    { label: 'MAP', sectionId: 'map' },
+    { label: 'LEARN MORE', sectionId: 'learn-more' },
+    { label: 'CONTACT', sectionId: 'footer' },
+  ];
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-10 transition-all duration-300 ${headerClass}`}>
       <nav className="container mx-auto px-4 py-6 flex justify-between items-center">
@@ -53,11 +75,20 @@ const Header = ({ mode = 'default' }: HeaderProps) => {
         </button>
 
         <ul className={`hidden md:flex space-x-6 ${textColor}`}>
-          <li><Link to="/" className={`font-semibold hover:text-gray-300 ${textColor}`}>HOME</Link></li>
-          <li><Link to="/about" className={`font-semibold hover:text-gray-300 ${textColor}`}>ABOUT US</Link></li>
-          <li><Link to="/map" className={`font-semibold hover:text-gray-300 ${textColor}`}>MAP</Link></li>
-          <li><Link to="/learn-more" className={`font-semibold hover:text-gray-300 ${textColor}`}>LEARN MORE</Link></li>
-          <li><Link to="/contact" className={`font-semibold hover:text-gray-300 ${textColor}`}>CONTACT</Link></li>
+          {navItems.map((item) => (
+            <li key={item.sectionId}>
+              <a
+                href={isHomePage ? `#${item.sectionId}` : `/#${item.sectionId}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(item.sectionId);
+                }}
+                className={`font-semibold hover:text-gray-300 ${textColor}`}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
 
         <button className={`hidden md:block border px-4 py-2 rounded-full transition-colors ${
@@ -70,11 +101,20 @@ const Header = ({ mode = 'default' }: HeaderProps) => {
           menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         } menu`}>
           <ul className="flex flex-col items-center justify-center h-full space-y-6 text-white text-lg">
-            <li><Link to="/" className="hover:text-gray-300" onClick={toggleMenu}>HOME</Link></li>
-            <li><Link to="/about" className="hover:text-gray-300" onClick={toggleMenu}>ABOUT US</Link></li>
-            <li><Link to="/map" className="hover:text-gray-300" onClick={toggleMenu}>MAP</Link></li>
-            <li><Link to="/learn-more" className="hover:text-gray-300" onClick={toggleMenu}>LEARN MORE</Link></li>
-            <li><Link to="/contact" className="hover:text-gray-300" onClick={toggleMenu}>CONTACT</Link></li>
+            {navItems.map((item) => (
+              <li key={item.sectionId}>
+                <a
+                  href={isHomePage ? `#${item.sectionId}` : `/#${item.sectionId}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(item.sectionId);
+                  }}
+                  className="hover:text-gray-300"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
             <button className="text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors">
               Connect Wallet
             </button>

@@ -12,7 +12,7 @@ const Feed: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100">
         <div className='pt-4'>
-            <Header mode="dashboard" />
+          <Header mode="dashboard" isHomePage={false} />
         </div>
       <div className="max-w-7xl mx-auto px-4 pt-20 lg:pt-24">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
