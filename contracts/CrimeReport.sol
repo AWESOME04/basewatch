@@ -17,17 +17,26 @@ contract CrimeReport {
         uint256 rejectionCount;
     }
 
+    struct Validator {
+        uint256 reputationScore;
+    }
+
     uint256 public reportCount = 0;
     ERC20 public rewardToken; 
     uint256 public rewardAmount; 
     address[] public validators; 
     uint256 public validatorThreshold;
+    uint256 public pointsPerSuccessfulValidation = 10;
+    uint256 public pointsLostForFalseValidation = 10;
 
     mapping(uint256 => Report) public reports;
+    mapping(address => Validator) public validatorReputation; // Tracks reputation of validators
     mapping(uint256 => mapping(address => bool)) public hasVoted;
+
     event ReportSubmitted(uint256 reportId, address indexed reporter);
     event ReportValidated(uint256 reportId, uint256 rewardAmount);
     event ReportRejected(uint256 reportId);
+    event ReputationUpdated(address indexed validator, uint256 newScore);
 
     constructor(ERC20 _rewardToken, uint256 _rewardAmount, address[] memory _validators) {
         rewardToken = _rewardToken;
@@ -87,6 +96,7 @@ contract CrimeReport {
         if (report.validationCount > validatorThreshold) {
             report.status = "verified";
             rewardToken.transfer(report.reporter, rewardAmount);
+            rewardValidator(msg.sender); // Update validator's reputation
             emit ReportValidated(reportId, rewardAmount);
         }
     }
@@ -106,16 +116,29 @@ contract CrimeReport {
 
         if (report.rejectionCount > validatorThreshold) {
             report.status = "rejected";
+            penalizeValidator(msg.sender); // Penalize validator if the report is rejected
             emit ReportRejected(reportId);
         }
     }
 
-    function getReport(uint256 reportId) external view returns (Report memory) {
-        require(reportId <= reportCount, "Report does not exist");
-        return reports[reportId];
+    // Function to reward points if a report is validated as verified
+    function rewardValidator(address validator) internal {
+        validatorReputation[validator].reputationScore += pointsPerSuccessfulValidation;
+        emit ReputationUpdated(validator, validatorReputation[validator].reputationScore);
     }
 
-    function addValidator(address newValidator) external {
-        validators.push(newValidator);
+    // Function to penalize points if a report is proven false
+    function penalizeValidator(address validator) internal {
+        if (validatorReputation[validator].reputationScore >= pointsLostForFalseValidation) {
+            validatorReputation[validator].reputationScore -= pointsLostForFalseValidation;
+        } else {
+            validatorReputation[validator].reputationScore = 0; // Prevent negative scores
+        }
+        emit ReputationUpdated(validator, validatorReputation[validator].reputationScore);
+    }
+
+    // Function to get a validator's current reputation score
+    function getReputation(address validator) external view returns (uint256) {
+        return validatorReputation[validator].reputationScore;
     }
 }
