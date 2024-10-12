@@ -15,8 +15,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-white border-r border-gray-200 fixed left-0 top-24 overflow-y-auto">
-      <nav className="p-4">
+    <aside className="w-64 h-screen bg-white border-r border-gray-200 fixed left-0 top-24 flex flex-col">
+      <nav className="p-4 flex-grow overflow-y-auto">
         <ul className="space-y-4">
           {menuItems.map((item) => (
             <li key={item.path}>
@@ -30,12 +30,12 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
               >
                 <item.icon
                   className={`text-2xl ${
-                    activePage === item.path ? 'text-blue-500' : ''
+                    activePage === item.path ? 'text-[#1DA1F2]' : ''
                   }`}
                 />
                 <span
                   className={`text-lg font-semibold ${
-                    activePage === item.path ? 'text-blue-500' : ''
+                    activePage === item.path ? 'text-[#1DA1F2]' : ''
                   }`}
                 >
                   {item.label}
@@ -44,12 +44,12 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
             </li>
           ))}
         </ul>
-      </nav>
-      <div className="absolute bottom-8 left-0 right-0 px-4">
+        <div className="py-8 border-t border-gray-200">
         <button className="w-full bg-red-500 text-white py-3 rounded-full font-semibold hover:bg-red-600 transition-colors">
           Report Activity
         </button>
       </div>
+      </nav>
     </aside>
   );
 };
