@@ -7,6 +7,6 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 
 contract BWT is ERC20, ERC20Permit {
     constructor() ERC20("BWT", "BWT") ERC20Permit("BWT") {
-        _mint(msg.sender, 21000000000 * 10 ** decimals());
+        _mint(msg.sender, 21000000 * 10 ** decimals());
     }
 }
