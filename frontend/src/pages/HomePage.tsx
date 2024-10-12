@@ -1,9 +1,9 @@
-import Header from '../components/Header';
-import HeroSection from '../components/HeroSection';
-import AboutUs from '../components/AboutUs';
-import MapSection from '../components/MapSection';
-import LearnMore from '../components/LearnMore';
-import Footer from '../components/Footer';
+import Header from '../components/homepage/Header';
+import HeroSection from '../components/homepage/HeroSection';
+import AboutUs from '../components/homepage/AboutUs';
+import MapSection from '../components/homepage/MapSection';
+import LearnMore from '../components/homepage/LearnMore';
+import Footer from '../components/homepage/Footer';
 
 const HomePage = () => {
   return (
