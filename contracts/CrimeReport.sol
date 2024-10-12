@@ -9,14 +9,14 @@ contract CrimeReport {
         address reporter;
         string content;
         string reportType;
-        string location;
         string proof;
         string status;
         uint256 timestamp;
         uint256 validationCount;
         uint256 rejectionCount;
+        string latitude;  
+        string longitude; 
     }
-
     struct Validator {
         uint256 reputationScore;
     }
@@ -67,8 +67,9 @@ contract CrimeReport {
     function submitReport(
         string memory _content,
         string memory _reportType,
-        string memory _location,
-        string memory _proof
+        string memory _proof,
+        string memory _latitude, 
+        string memory _longitude   
     ) external {
         reportCount++;
         reports[reportCount] = Report(
@@ -76,12 +77,13 @@ contract CrimeReport {
             msg.sender,
             _content,
             _reportType,
-            _location,
             _proof,
             "pending",
             block.timestamp,
             0,
-            0
+            0,
+            _latitude,   
+            _longitude   
         );
 
         emit ReportSubmitted(reportCount, msg.sender);
