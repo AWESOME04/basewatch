@@ -65,14 +65,9 @@ contract CrimeReport {
         return false;
     }
 
-    function setValidators(string[] memory _newValidators) external {
-        validators = _newValidators;
-        validatorThreshold = (_newValidators.length + 1) / 2;
-    }
-
     function addValidator(string memory newValidator, address validatorAddress) external {
         validators.push(newValidator);
-        basenameToAddress[newValidator] = validatorAddress; 
+        basenameToAddress[newValidator] = validatorAddress;
     }
 
     function submitReport(
@@ -94,8 +89,8 @@ contract CrimeReport {
             block.timestamp,
             0,
             0,
-            _latitude,   
-            _longitude   
+            _latitude,
+            _longitude
         );
 
         emit ReportSubmitted(reportCount, _reporter);
@@ -117,8 +112,14 @@ contract CrimeReport {
 
         if (report.validationCount > validatorThreshold) {
             report.status = "verified";
-            rewardToken.transfer(basenameToAddress[report.reporter], rewardAmount);
-            rewardValidator(basename);
+            rewardToken.transfer(basenameToAddress[report.reporter], rewardAmount); 
+            
+            for (uint256 i = 0; i < validators.length; i++) {
+                if (hasVoted[reportId][validators[i]]) {
+                    rewardValidator(validators[i]);
+                }
+            }
+
             emit ReportValidated(reportId, rewardAmount);
         }
     }
@@ -139,7 +140,14 @@ contract CrimeReport {
 
         if (report.rejectionCount > validatorThreshold) {
             report.status = "rejected";
-            penalizeValidator(basename);
+
+
+            for (uint256 i = 0; i < validators.length; i++) {
+                if (hasVoted[reportId][validators[i]]) {
+                    penalizeValidator(validators[i]);
+                }
+            }
+
             emit ReportRejected(reportId);
         }
     }
@@ -156,7 +164,6 @@ contract CrimeReport {
     function penalizeValidator(string memory basename) internal {
         validatorReputation[basename]
             .reputationScore -= pointsLostForFalseValidation;
-
         emit ReputationUpdated(
             basename,
             validatorReputation[basename].reputationScore
