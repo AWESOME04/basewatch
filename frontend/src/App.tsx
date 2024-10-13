@@ -4,6 +4,7 @@ import Feed from './pages/Feed';
 import Explore from './pages/Explore';
 import ViewMap from './pages/ViewMap';
 import ReportActivity from './pages/ReportActivity';
+import SinglePostPage from './pages/SinglePostPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/explore" element={<Explore />} />
         <Route path="/maps" element={<ViewMap />} />
         <Route path="/report" element={<ReportActivity />} />
+        <Route path="/post/:postId" element={<SinglePostPage />} />
       </Routes>
     </Router>
   );

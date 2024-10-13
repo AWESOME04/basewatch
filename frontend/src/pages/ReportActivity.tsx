@@ -15,7 +15,7 @@ const ReportActivity = () => {
             <Sidebar activePage={location.pathname} />
           </div>
           <main className="flex-1">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-6">Report Illegal Activity</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-6 text-light-blue">Report Illegal Activity</h1>
             <ReportForm />
           </main>
         </div>
