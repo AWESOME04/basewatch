@@ -12,7 +12,7 @@ export default {
           light: 'rgba(180, 19, 23, 1)'
         },
         blue: 'rgba(43, 54, 96, 1)',
-        'light-blue': '#F2F7FB',
+        'light-blue': '#1DA1F2',
         'custom-red': '#B41317',
         'custom-blue': '#2B3660',
         'custom-black': 'rgba(6, 9, 17, 0.5)',

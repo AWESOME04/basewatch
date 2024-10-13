@@ -24,18 +24,18 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
                 to={item.path}
                 className={`flex items-center space-x-3 p-2 rounded-lg transition-colors ${
                   activePage === item.path
-                    ? 'text-[#1DA1F2] bg-blue-50'
+                    ? 'text-light-blue'
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 <item.icon
                   className={`text-2xl ${
-                    activePage === item.path ? 'text-[#1DA1F2]' : ''
+                    activePage === item.path ? 'text-light-blue' : ''
                   }`}
                 />
                 <span
                   className={`text-lg font-semibold ${
-                    activePage === item.path ? 'text-[#1DA1F2]' : ''
+                    activePage === item.path ? 'text-light-blue' : ''
                   }`}
                 >
                   {item.label}

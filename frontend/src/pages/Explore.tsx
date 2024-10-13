@@ -19,7 +19,7 @@ const Explore: React.FC = () => {
             <Sidebar activePage={location.pathname} />
           </div>
           <main className="w-full lg:flex-grow mb-8">
-            <h1 className="text-2xl font-bold mb-4">Explore Topics</h1>
+            <h1 className="text-2xl font-bold mb-4 text-light-blue">Explore Topics</h1>
             <ExploreGrid />
           </main>
           <div className="w-full lg:w-80 mt-8 lg:mt-0">

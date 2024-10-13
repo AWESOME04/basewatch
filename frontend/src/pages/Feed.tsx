@@ -20,7 +20,7 @@ const Feed: React.FC = () => {
             <Sidebar activePage={location.pathname} />
           </div>
           <main className="w-full lg:flex-grow mb-8">
-            <h1 className="text-2xl font-bold mb-4">Home</h1>
+            <h1 className="text-2xl font-bold mb-4 text-light-blue">Home</h1>
             <MainContent />
           </main>
           <div className="w-full lg:w-80 mt-8 lg:mt-0">
