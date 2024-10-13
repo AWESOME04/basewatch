@@ -33,6 +33,7 @@ contract CrimeReport {
     mapping(uint256 => Report) public reports;
     mapping(string => Validator) public validatorReputation;
     mapping(uint256 => mapping(string => bool)) public hasVoted;
+     mapping(uint256 => mapping(string => bool)) public voteCast;
     mapping(string => address) public basenameToAddress;
 
     event ReportSubmitted(uint256 reportId, string indexed reporter);
@@ -109,6 +110,7 @@ contract CrimeReport {
 
         report.validationCount++;
         hasVoted[reportId][basename] = true;
+        voteCast[reportId][basename] = true;
 
         if (report.validationCount > validatorThreshold) {
             report.status = "verified";
@@ -116,7 +118,12 @@ contract CrimeReport {
             
             for (uint256 i = 0; i < validators.length; i++) {
                 if (hasVoted[reportId][validators[i]]) {
+                    if(voteCast[reportId][basename]){
                     rewardValidator(validators[i]);
+
+                    }else{
+                        penalizeValidator(validators[i]);
+                    }
                 }
             }
 
@@ -144,7 +151,12 @@ contract CrimeReport {
 
             for (uint256 i = 0; i < validators.length; i++) {
                 if (hasVoted[reportId][validators[i]]) {
+                    if(voteCast[reportId][basename]){
                     penalizeValidator(validators[i]);
+
+                    }else{
+                        rewardValidator(validators[i]);
+                    }
                 }
             }
 
