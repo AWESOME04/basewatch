@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/logo.svg';
+import Logo2 from '../../assets/logo-2.svg';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 interface HeaderProps {
@@ -66,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ mode = 'default', isHomePage = false })
     <header className={`fixed top-0 left-0 right-0 z-10 transition-all duration-300 ${headerClass}`}>
       <nav className="container mx-auto px-4 py-6 flex justify-between items-center">
         <Link to='/'>
-          <img src={Logo} alt="Logo" className="w-16 h-16" />
+          <img src={mode === 'dashboard' ? Logo2 : Logo} alt="Logo" className="w-16 h-16" />
         </Link>
 
         <button className={`md:hidden menu-btn z-20 ${textColor}`} onClick={toggleMenu}>
