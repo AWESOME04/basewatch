@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract CrimeReport {
     struct Report {
         uint256 id;
-        string reporter; // Now reporter is identified by basename
+        string reporter;
         string content;
         string reportType;
         string proof;
@@ -25,15 +25,15 @@ contract CrimeReport {
     uint256 public reportCount = 0;
     ERC20 public rewardToken;
     uint256 public rewardAmount;
-    string[] public validators; // Validators are now identified by basenames
+    string[] public validators; 
     uint256 public validatorThreshold;
     uint256 public pointsPerSuccessfulValidation = 10;
     uint256 public pointsLostForFalseValidation = 10;
 
     mapping(uint256 => Report) public reports;
-    mapping(string => Validator) public validatorReputation; // Use basenames instead of addresses
+    mapping(string => Validator) public validatorReputation;
     mapping(uint256 => mapping(string => bool)) public hasVoted;
-    mapping(string => address) public basenameToAddress; // Mapping basenames to Ethereum addresses
+    mapping(string => address) public basenameToAddress;
 
     event ReportSubmitted(uint256 reportId, string indexed reporter);
     event ReportValidated(uint256 reportId, uint256 rewardAmount);
@@ -43,7 +43,7 @@ contract CrimeReport {
     constructor(
         ERC20 _rewardToken,
         uint256 _rewardAmount,
-        string[] memory _validators // Validators are passed by basename
+        string[] memory _validators
     ) {
         rewardToken = _rewardToken;
         rewardAmount = _rewardAmount;
@@ -65,9 +65,14 @@ contract CrimeReport {
         return false;
     }
 
+    function setValidators(string[] memory _newValidators) external {
+        validators = _newValidators;
+        validatorThreshold = (_newValidators.length + 1) / 2;
+    }
+
     function addValidator(string memory newValidator, address validatorAddress) external {
         validators.push(newValidator);
-        basenameToAddress[newValidator] = validatorAddress; // Map the new validator's basename to their address
+        basenameToAddress[newValidator] = validatorAddress; 
     }
 
     function submitReport(
@@ -112,8 +117,8 @@ contract CrimeReport {
 
         if (report.validationCount > validatorThreshold) {
             report.status = "verified";
-            rewardToken.transfer(basenameToAddress[report.reporter], rewardAmount); // Transfer reward to the reporter's address
-            rewardValidator(basename); // Update validator's reputation
+            rewardToken.transfer(basenameToAddress[report.reporter], rewardAmount);
+            rewardValidator(basename);
             emit ReportValidated(reportId, rewardAmount);
         }
     }
@@ -134,7 +139,7 @@ contract CrimeReport {
 
         if (report.rejectionCount > validatorThreshold) {
             report.status = "rejected";
-            penalizeValidator(basename); // Penalize validator if the report is rejected
+            penalizeValidator(basename);
             emit ReportRejected(reportId);
         }
     }
