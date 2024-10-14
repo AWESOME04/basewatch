@@ -1,6 +1,6 @@
 const LearnMore = () => {
   return (
-    <section className="bg-gray-900 text-white py-16">
+    <section id="learn-more" className="bg-gray-900 text-white py-16">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-8">
           <div>
