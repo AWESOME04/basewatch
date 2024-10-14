@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/logo.svg';
 import Logo2 from '../../assets/logo-2.svg';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUserCircle } from 'react-icons/fa';
+import { useWallet } from '../auth/WalletProvider';
 
 interface HeaderProps {
   mode?: 'default' | 'dashboard';
@@ -12,6 +13,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ mode = 'default', isHomePage = false }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isConnected, account, connectWallet, disconnectWallet } = useWallet();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,11 +93,29 @@ const Header: React.FC<HeaderProps> = ({ mode = 'default', isHomePage = false })
           ))}
         </ul>
 
-        <button className={`hidden md:block border px-4 py-2 rounded-full transition-colors ${
-          mode === 'dashboard' ? 'border-black text-black hover:bg-black hover:text-white' : 'border-white text-white hover:bg-white hover:text-black'
-        }`}>
-          Connect Wallet
-        </button>
+        {isConnected && account ? (
+          <div className={`hidden md:flex items-center space-x-2 ${textColor}`}>
+            <FaUserCircle size={24} />
+            <span className="text-sm">{`${account.slice(0, 6)}...${account.slice(-4)}`}</span>
+            <button
+              onClick={disconnectWallet}
+              className={`border px-2 py-1 rounded-full text-sm transition-colors ${
+                mode === 'dashboard' ? 'border-black text-black hover:bg-black hover:text-white' : 'border-white text-white hover:bg-white hover:text-black'
+              }`}
+            >
+              Disconnect
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={connectWallet}
+            className={`hidden md:block border px-4 py-2 rounded-full transition-colors ${
+              mode === 'dashboard' ? 'border-black text-black hover:bg-black hover:text-white' : 'border-white text-white hover:bg-white hover:text-black'
+            }`}
+          >
+            Connect MetaMask
+          </button>
+        )}
 
         <div className={`md:hidden fixed inset-0 bg-gray-900 z-10 transition-all duration-300 ${
           menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -115,9 +135,25 @@ const Header: React.FC<HeaderProps> = ({ mode = 'default', isHomePage = false })
                 </a>
               </li>
             ))}
-            <button className="text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors">
-              Connect Wallet
-            </button>
+            {isConnected && account ? (
+              <div className="flex flex-col items-center space-y-2">
+                <FaUserCircle size={24} />
+                <span className="text-sm">{`${account.slice(0, 6)}...${account.slice(-4)}`}</span>
+                <button
+                  onClick={disconnectWallet}
+                  className="text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors"
+                >
+                  Disconnect
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={connectWallet}
+                className="text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors"
+              >
+                Connect MetaMask
+              </button>
+            )}
           </ul>
         </div>
       </nav>
