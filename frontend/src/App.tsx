@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { WalletProvider } from './components/auth/WalletProvider';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import HomePage from './pages/HomePage';
 import Feed from './pages/Feed';
 import Explore from './pages/Explore';
@@ -13,11 +14,11 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/feed" element={<Feed />} />
-          <Route path="/explore" element={<Explore />} />
-          <Route path="/maps" element={<ViewMap />} />
-          <Route path="/report" element={<ReportActivity />} />
-          <Route path="/post/:postId" element={<SinglePostPage />} />
+          <Route path="/feed" element={<ProtectedRoute><Feed /></ProtectedRoute>} />
+          <Route path="/explore" element={<ProtectedRoute><Explore /></ProtectedRoute>} />
+          <Route path="/maps" element={<ProtectedRoute><ViewMap /></ProtectedRoute>} />
+          <Route path="/report" element={<ProtectedRoute><ReportActivity /></ProtectedRoute>} />
+          <Route path="/post/:postId" element={<ProtectedRoute><SinglePostPage /></ProtectedRoute>} />
         </Routes>
       </Router>
     </WalletProvider>
