@@ -14,6 +14,7 @@ contract CrimeReport {
         uint256 timestamp;
         uint256 validationCount;
         uint256 rejectionCount;
+        uint256 likes; 
         string latitude;
         string longitude; 
     }
@@ -33,13 +34,15 @@ contract CrimeReport {
     mapping(uint256 => Report) public reports;
     mapping(string => Validator) public validatorReputation;
     mapping(uint256 => mapping(string => bool)) public hasVoted;
-     mapping(uint256 => mapping(string => bool)) public voteCast;
+    mapping(uint256 => mapping(address => bool)) public hasLiked;
+    mapping(uint256 => mapping(string => bool)) public voteCast;
     mapping(string => address) public basenameToAddress;
 
     event ReportSubmitted(uint256 reportId, string indexed reporter);
     event ReportValidated(uint256 reportId, uint256 rewardAmount);
     event ReportRejected(uint256 reportId);
     event ReputationUpdated(string indexed validator, uint256 newScore);
+    event ReportLiked(uint256 reportId, address indexed liker); 
 
     constructor(
         ERC20 _rewardToken,
@@ -90,6 +93,7 @@ contract CrimeReport {
             block.timestamp,
             0,
             0,
+            0,
             _latitude,
             _longitude
         );
@@ -119,9 +123,8 @@ contract CrimeReport {
             for (uint256 i = 0; i < validators.length; i++) {
                 if (hasVoted[reportId][validators[i]]) {
                     if(voteCast[reportId][basename]){
-                    rewardValidator(validators[i]);
-
-                    }else{
+                        rewardValidator(validators[i]);
+                    } else {
                         penalizeValidator(validators[i]);
                     }
                 }
@@ -148,13 +151,11 @@ contract CrimeReport {
         if (report.rejectionCount > validatorThreshold) {
             report.status = "rejected";
 
-
             for (uint256 i = 0; i < validators.length; i++) {
                 if (hasVoted[reportId][validators[i]]) {
                     if(voteCast[reportId][basename]){
-                    penalizeValidator(validators[i]);
-
-                    }else{
+                        penalizeValidator(validators[i]);
+                    } else {
                         rewardValidator(validators[i]);
                     }
                 }
@@ -184,5 +185,24 @@ contract CrimeReport {
 
     function getReputation(string memory basename) external view returns (uint256) {
         return validatorReputation[basename].reputationScore;
+    }
+
+    function likeReport(uint256 reportId) external {
+        require(reportId <= reportCount, "Report does not exist");
+
+        if (hasLiked[reportId][msg.sender]) {
+            reports[reportId].likes--;
+            hasLiked[reportId][msg.sender] = false;
+        } else {
+            reports[reportId].likes++;
+            hasLiked[reportId][msg.sender] = true;
+        }
+
+        emit ReportLiked(reportId, msg.sender); 
+    }
+
+    function getLikes(uint256 reportId) external view returns (uint256) {
+        require(reportId <= reportCount, "Report does not exist");
+        return reports[reportId].likes;
     }
 }
