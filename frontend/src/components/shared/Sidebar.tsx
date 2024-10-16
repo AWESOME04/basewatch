@@ -11,7 +11,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
     { path: '/explore', icon: FaHashtag, label: 'Explore Topics' },
     { path: '/maps', icon: FaMap, label: 'Open Maps' },
     { path: '/profile', icon: FaUser, label: 'Profile' },
-    { path: '/more', icon: FaEllipsisH, label: 'More' },
+    { path: '', icon: FaEllipsisH, label: 'More' },
   ];
 
   return (
