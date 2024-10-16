@@ -113,7 +113,7 @@ const Header: React.FC<HeaderProps> = ({ mode = 'default', isHomePage = false })
               mode === 'dashboard' ? 'border-black text-black hover:bg-black hover:text-white' : 'border-white text-white hover:bg-white hover:text-black'
             }`}
           >
-            Connect MetaMask
+            Connect Wallet
           </button>
         )}
 
@@ -151,7 +151,7 @@ const Header: React.FC<HeaderProps> = ({ mode = 'default', isHomePage = false })
                 onClick={connectWallet}
                 className="text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors"
               >
-                Connect MetaMask
+                Connect Wallet
               </button>
             )}
           </ul>
