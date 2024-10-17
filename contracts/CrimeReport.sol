@@ -14,9 +14,9 @@ contract CrimeReport {
         uint256 timestamp;
         uint256 validationCount;
         uint256 rejectionCount;
-        uint256 likes; 
+        uint256 likes;
         string latitude;
-        string longitude; 
+        string longitude;
     }
 
     struct Validator {
@@ -26,7 +26,7 @@ contract CrimeReport {
     uint256 public reportCount = 0;
     ERC20 public rewardToken;
     uint256 public rewardAmount;
-    string[] public validators; 
+    string[] public validators;
     uint256 public validatorThreshold;
     uint256 public pointsPerSuccessfulValidation = 10;
     uint256 public pointsLostForFalseValidation = 10;
@@ -42,7 +42,7 @@ contract CrimeReport {
     event ReportValidated(uint256 reportId, uint256 rewardAmount);
     event ReportRejected(uint256 reportId);
     event ReputationUpdated(string indexed validator, uint256 newScore);
-    event ReportLiked(uint256 reportId, address indexed liker); 
+    event ReportLiked(uint256 reportId, address indexed liker);
 
     constructor(
         ERC20 _rewardToken,
@@ -62,14 +62,20 @@ contract CrimeReport {
 
     function isValidator(string memory basename) public view returns (bool) {
         for (uint256 i = 0; i < validators.length; i++) {
-            if (keccak256(abi.encodePacked(validators[i])) == keccak256(abi.encodePacked(basename))) {
+            if (
+                keccak256(abi.encodePacked(validators[i])) ==
+                keccak256(abi.encodePacked(basename))
+            ) {
                 return true;
             }
         }
         return false;
     }
 
-    function addValidator(string memory newValidator, address validatorAddress) external {
+    function addValidator(
+        string memory newValidator,
+        address validatorAddress
+    ) external {
         validators.push(newValidator);
         basenameToAddress[newValidator] = validatorAddress;
     }
@@ -79,8 +85,8 @@ contract CrimeReport {
         string memory _content,
         string memory _reportType,
         string memory _proof,
-        string memory _latitude, 
-        string memory _longitude   
+        string memory _latitude,
+        string memory _longitude
     ) external {
         reportCount++;
         reports[reportCount] = Report(
@@ -101,7 +107,18 @@ contract CrimeReport {
         emit ReportSubmitted(reportCount, _reporter);
     }
 
-    function validateReport(uint256 reportId, string memory basename) external onlyValidator(basename) {
+    function getAllReports() public view returns (Report[] memory) {
+        Report[] memory allReports = new Report[](reportCount);
+        for (uint256 i = 1; i <= reportCount; i++) {
+            allReports[i - 1] = reports[i];
+        }
+        return allReports;
+    }
+
+    function validateReport(
+        uint256 reportId,
+        string memory basename
+    ) external onlyValidator(basename) {
         require(reportId <= reportCount, "Report does not exist");
         Report storage report = reports[reportId];
 
@@ -118,11 +135,14 @@ contract CrimeReport {
 
         if (report.validationCount > validatorThreshold) {
             report.status = "verified";
-            rewardToken.transfer(basenameToAddress[report.reporter], rewardAmount); 
-            
+            rewardToken.transfer(
+                basenameToAddress[report.reporter],
+                rewardAmount
+            );
+
             for (uint256 i = 0; i < validators.length; i++) {
                 if (hasVoted[reportId][validators[i]]) {
-                    if(voteCast[reportId][basename]){
+                    if (voteCast[reportId][basename]) {
                         rewardValidator(validators[i]);
                     } else {
                         penalizeValidator(validators[i]);
@@ -134,7 +154,10 @@ contract CrimeReport {
         }
     }
 
-    function rejectReport(uint256 reportId, string memory basename) external onlyValidator(basename) {
+    function rejectReport(
+        uint256 reportId,
+        string memory basename
+    ) external onlyValidator(basename) {
         require(reportId <= reportCount, "Report does not exist");
         Report storage report = reports[reportId];
 
@@ -153,7 +176,7 @@ contract CrimeReport {
 
             for (uint256 i = 0; i < validators.length; i++) {
                 if (hasVoted[reportId][validators[i]]) {
-                    if(voteCast[reportId][basename]){
+                    if (voteCast[reportId][basename]) {
                         penalizeValidator(validators[i]);
                     } else {
                         rewardValidator(validators[i]);
@@ -183,7 +206,9 @@ contract CrimeReport {
         );
     }
 
-    function getReputation(string memory basename) external view returns (uint256) {
+    function getReputation(
+        string memory basename
+    ) external view returns (uint256) {
         return validatorReputation[basename].reputationScore;
     }
 
@@ -198,7 +223,7 @@ contract CrimeReport {
             hasLiked[reportId][msg.sender] = true;
         }
 
-        emit ReportLiked(reportId, msg.sender); 
+        emit ReportLiked(reportId, msg.sender);
     }
 
     function getLikes(uint256 reportId) external view returns (uint256) {
