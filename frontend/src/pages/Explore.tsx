@@ -15,9 +15,7 @@ const Explore: React.FC = () => {
       </div>
       <div className="max-w-7xl mx-auto px-4 pt-20 lg:pt-24">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
-          <div className="hidden lg:block lg:w-64 flex-shrink-0">
-            <Sidebar activePage={location.pathname} />
-          </div>
+          <Sidebar activePage={location.pathname} />
           <main className="w-full lg:flex-grow mb-8">
             <h1 className="text-2xl font-bold mb-4 text-light-blue">Explore Topics</h1>
             <ExploreGrid />

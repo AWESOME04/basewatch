@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../components/shared/Header';
 import Sidebar from '../components/shared/Sidebar';
@@ -7,7 +7,7 @@ import Loading from '../components/shared/Loading';
 
 const ProfileContent = lazy(() => import('../components/profile/ProfileContent'));
 
-const Profile = () => {
+const Profile: React.FC = () => {
   const location = useLocation();
   const { isConnected } = useWallet();
 
@@ -22,9 +22,7 @@ const Profile = () => {
       </div>
       <div className="max-w-7xl mx-auto px-4 pt-20 lg:pt-24">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
-          <div className="hidden lg:block lg:w-64 flex-shrink-0">
-            <Sidebar activePage={location.pathname} />
-          </div>
+          <Sidebar activePage={location.pathname} />
           <main className="w-full lg:flex-grow mb-8">
             <h1 className="text-2xl font-bold mb-6 text-light-blue">Your Profile</h1>
             <Suspense fallback={<Loading />}>

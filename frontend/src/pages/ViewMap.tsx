@@ -8,14 +8,14 @@ const ViewMap: React.FC = () => {
   const location = useLocation();
 
   return (
-    <div className="pt-24 min-h-screen bg-gray-100">
-      <Header mode="dashboard" isHomePage={false} />
-      <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100">
+      <div className='pt-4'>
+        <Header mode="dashboard" isHomePage={false} />
+      </div>
+      <div className="max-w-7xl mx-auto px-4 pt-20 lg:pt-24">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
-          <div className="hidden lg:block lg:w-64 flex-shrink-0">
-            <Sidebar activePage={location.pathname} />
-          </div>
-          <main className="flex-1">
+          <Sidebar activePage={location.pathname} />
+          <main className="w-full lg:flex-grow mb-8">
             <h1 className="text-2xl font-semibold text-gray-900 mb-6 text-light-blue">Open Maps</h1>
             <div className="relative h-[calc(100vh-250px)]">
               <Map />
