@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardLayout from '../components/shared/DashboardLayout';
 import ExploreGrid from '../components/explore/ExploreGrid';
-import TrendingSection from '../components/feed/TrendingSection';
+import TrendingSection from '../components/shared/TrendingSection';
 
 const Explore: React.FC = () => {
   return (

@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import DashboardLayout from '../components/shared/DashboardLayout';
 import MainContent from '../components/feed/MainContent';
 import SinglePostPage from './SinglePostPage';
-import TrendingSection from '../components/feed/TrendingSection';
+import TrendingSection from '../components/shared/TrendingSection';
 
 const Feed: React.FC = () => {
   return (

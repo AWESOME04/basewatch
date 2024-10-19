@@ -5,7 +5,7 @@ import { FaComment, FaRetweet, FaHeart, FaShare } from 'react-icons/fa';
 import posts from '../data/posts';
 import Header from '../components/shared/Header';
 import Sidebar from '../components/shared/Sidebar';
-import TrendingSection from '../components/feed/TrendingSection';
+import TrendingSection from '../components/shared/TrendingSection';
 
 const SinglePostPage: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
