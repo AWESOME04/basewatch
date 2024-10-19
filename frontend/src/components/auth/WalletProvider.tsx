@@ -1,5 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { ethers, BrowserProvider } from 'ethers';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 declare global {
   interface Window {
@@ -30,9 +32,11 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         if (accounts.length > 0) {
           setIsConnected(true);
           setAccount(accounts[0]);
+          toast.success('Wallet connected successfully!');
         } else {
           setIsConnected(false);
           setAccount(null);
+          toast.info('Wallet disconnected');
         }
       };
 
@@ -57,6 +61,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         }
       } catch (error) {
         console.error("An error occurred while checking the connection:", error);
+        toast.error('Failed to check wallet connection');
       }
     }
   };
@@ -70,22 +75,28 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         const address = await signer.getAddress();
         setIsConnected(true);
         setAccount(address);
+        toast.success('Wallet connected successfully!');
       } catch (error) {
         console.error("An error occurred while connecting the wallet:", error);
+        toast.error('Failed to connect wallet. Please try again.');
       }
     } else {
-      alert('MetaMask is not installed. Please install it to use this feature.');
+      toast.error('MetaMask is not installed. Please install it to use this feature.', {
+        autoClose: 1500,
+      });
     }
   };
 
   const disconnectWallet = () => {
     setIsConnected(false);
     setAccount(null);
+    toast.success('Wallet disconnected successfully.');
   };
 
   return (
     <WalletContext.Provider value={{ isConnected, account, connectWallet, disconnectWallet }}>
       {children}
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} />
     </WalletContext.Provider>
   );
 };

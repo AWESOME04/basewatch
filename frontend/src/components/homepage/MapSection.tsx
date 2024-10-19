@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import MapImage from '../../assets/map.svg';
 
 const MapSection = () => {
@@ -8,9 +9,11 @@ const MapSection = () => {
         <div className="text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Visualize Our Impact</h2>
           <p className="mb-8">Explore the areas where we've made a difference</p>
-          <button className="bg-white text-gray-900 px-6 py-3 rounded-full hover:bg-gray-200">
-            View Full Map
-          </button>
+          <Link to='/maps'>
+            <button className="bg-white text-gray-900 px-6 py-3 rounded-full hover:bg-gray-200">
+              View Full Map
+            </button>
+          </Link>
         </div>
       </div>
     </section>

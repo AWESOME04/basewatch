@@ -7,6 +7,7 @@ import Explore from './pages/Explore';
 import ViewMap from './pages/ViewMap';
 import ReportActivity from './pages/ReportActivity';
 import SinglePostPage from './pages/SinglePostPage';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/maps" element={<ProtectedRoute><ViewMap /></ProtectedRoute>} />
           <Route path="/report" element={<ProtectedRoute><ReportActivity /></ProtectedRoute>} />
           <Route path="/post/:postId" element={<ProtectedRoute><SinglePostPage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         </Routes>
       </Router>
     </WalletProvider>
