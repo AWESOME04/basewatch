@@ -146,10 +146,10 @@ We welcome contributions to BaseWatch! Please follow these steps to contribute:
 
 ## Contributors
 
-Evans Acheampong - https://github.com/AWESOME04
-Farouk Sedick - https://github.com/sedfarouk
-Boniface Delali Dakey - https://github.com/Serkhani
-Samuel Adams - https://github.com/samuel2l
+    Evans Acheampong - https://github.com/AWESOME04
+    Farouk Sedick - https://github.com/sedfarouk
+    Boniface Delali Dakey - https://github.com/Serkhani
+    Samuel Adams - https://github.com/samuel2l
 
 
 ## Acknowledgements
