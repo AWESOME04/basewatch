@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BaseWatch.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d1f2ba10e2e9b6f2a7e0113a37bea0af494f4c2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+57b11f48f4d67649bb31955937f10b34b5eebc6f")]
 [assembly: System.Reflection.AssemblyProductAttribute("BaseWatch.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BaseWatch.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
